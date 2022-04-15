@@ -18,6 +18,10 @@ import pandas as pd
 
 #list functions in docstring
 
+# Engineer target
+# data['precipitates'] = np.abs((data['temp']-data['dew_temp']) / (273+data['dew_temp']) )< 0.001
+# then shift the column by the number of ticks
+
 def drop_columns(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     """
     Docstring
@@ -92,6 +96,9 @@ def add_circular_features(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFr
 
     return data
 
+def ohe_slants(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
+    pass
+
 def main():
     data = pd.read_csv('jena_climate_2009_2016.csv')
 
@@ -99,6 +106,7 @@ def main():
     data = rename_columns(data)
     data = add_datetime_elements(data)
     data = add_circular_features(data)
+    data = ohe_slants(data)
 
 if __name__ == "__main__":
     main()
