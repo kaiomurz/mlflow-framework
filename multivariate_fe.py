@@ -21,6 +21,8 @@ import pandas as pd
 # Engineer target
 # data['precipitates'] = np.abs((data['temp']-data['dew_temp']) / (273+data['dew_temp']) )< 0.001
 # then shift the column by the number of ticks
+# leave 'precipitates' in as a target too.
+# scale features
 
 def drop_columns(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     """
