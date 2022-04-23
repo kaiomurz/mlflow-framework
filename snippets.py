@@ -112,3 +112,22 @@ y_pred = clf.predict(X_test)
 # recall = recall_score(y_test, y_pred)
 
 print(metric(y_true, y_pred))
+
+
+#######################################################################
+
+### use a neural network for tabular regression 
+
+input_size = X.shape[1]
+model = tf.keras.Sequential([
+    layers.Dense(input_size, activation='relu', input_shape=(input_size,)),
+    layers.Dense(1)
+])
+
+model.compile(loss=tf.keras.losses.MeanAbsoluteError())#, metrics=[tf.keras.metrics.Recall()])
+
+model.fit(X_train, y_train, epochs=10)#, validation_split=0.2)
+
+y_pred = model.predict(X_test)
+y_true = y_test
+print(metric(y_true, y_pred))
