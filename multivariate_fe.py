@@ -16,6 +16,9 @@ from typing import Tuple
 import numpy as np
 import pandas as pd
 
+from sklearn.preprocessing import StandardScaler
+
+
 #list functions in docstring
 
 # Engineer target
@@ -29,6 +32,7 @@ def drop_columns(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     Docstring
     """
     data = data.drop('Tpot (K)', axis=1)
+    print("data dropped")
     return data
 
 def rename_columns(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
@@ -53,6 +57,7 @@ def rename_columns(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     }
 
     data.columns = [renamer[column] for column in data.columns]
+    print("columns renamed")
 
     return data
 
@@ -98,17 +103,37 @@ def add_circular_features(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFr
 
     return data
 
+def create_target(data, features, target):
+    X = data[features]
+    y = data[target]
+
+    return X, y
+
+def scale(X):
+    scaler = StandardScaler()
+    scaler.fit(X)
+    X = scaler.transform(X)
+
+    return X
+
 def ohe_slants(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     pass
 
-def main():
-    data = pd.read_csv('jena_climate_2009_2016.csv')
-
+def engineer(data):
     data = drop_columns(data)
     data = rename_columns(data)
     data = add_datetime_elements(data)
     data = add_circular_features(data)
-    data = ohe_slants(data)
+    #data = ohe_slants(data)
+    # print(data.head())
+    return data
+
+def main():
+    data = pd.read_csv('jena_climate_2009_2016.csv')# from URL
+    data = engineer(data)
+    # save engineered data
+
+    
 
 if __name__ == "__main__":
     main()
