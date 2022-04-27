@@ -116,6 +116,15 @@ def scale(X):
 
     return X
 
+def get_train_test_splits(X,y, train_data_length, ticks):
+    X_train = X[:train_data_length-ticks]
+    y_train = y[ticks:train_data_length]
+
+    X_test = X[train_data_length-ticks:-ticks]
+    y_test = y[train_data_length:]
+
+    return X_train, y_train, X_test, y_test
+
 def ohe_slants(data: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
     pass
 
