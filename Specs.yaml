@@ -1,0 +1,32 @@
+data URI: 
+tracking data URI:
+
+flavors:
+  scikit_learn:
+    Linear Regression:
+      run: True
+      regressor: LinearRegression()
+      param_grid:
+        fit_intercept: [True, False]
+        positive: [True, False]
+    Lasso:
+      run: True
+      regressor: Lasso()
+      param_grid:
+        alpha: [0.1, 0.5, 1]
+        fit_intercept: [True, False]
+        positive: [True, False]
+    Ridge:
+      run: True
+      regressor: Ridge()
+      param_grid:
+        alpha: [0.1, 0.5, 1]
+        fit_intercept: [True, False]
+        positive: [True, False]
+    XG Boost:
+      run: True
+      regressor: xgb.XGBRegressor()
+      param_grid:
+        max_depth: [3, 5]
+
+ticks: 72 # 6hrs: 36, 12hrs: 72 24hrs: 144 

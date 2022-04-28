@@ -1,13 +1,18 @@
 
 import pandas as pd
-# from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
+from yaml import load
+from yaml import CLoader as Loader
+from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
 from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
+import xgboost as xgb
 
+import numpy as np
 import mlflow
 
 from cml_models import scikit_learn
 
 import multivariate_fe as mfe
+
 
 
 target = 'temp'
@@ -24,8 +29,11 @@ ticks = 72 # convert to list
 metric_name = "MAE"
 metric = mean_absolute_error
 
+# with open("Specs.yaml",'rb') as f:
+#     specs = load(f, Loader=Loader)
 
 def main():
+    print(specs)
     data = pd.read_csv('jena_climate_2009_2016.csv')# from URL
     data = mfe.engineer(data)
     # print(data.head())
@@ -54,31 +62,45 @@ def main():
     # find best model for each ticks value
     
     # 
-    frameworks = {
-        "scikit_learn": [
-            "Linear Regression",
-            "Lasso",
-            "Ridge",
-            "Decision Tree"
-        ]
+    regressors = {
+        "LinearRegression()" : LinearRegression(),
+        "Lasso()": Lasso(),
+        "Ridge()": Ridge(),
+        "xgb.XGBRegressor()": xgb.XGBRegressor()
     }
 
     # add progress bar
 
 
 
-    for framework in frameworks:
+    for framework in frameworks: #change to flavors
+        best_model = None
+        best_perf = np.inf
+        best_run_id = None
+        best_method = None
+
         for method in frameworks[framework]:
-            clf = scikit_learn.get_best_model(X_train, y_train, method)
+            clf, run_id = scikit_learn.get_best_model(X_train, y_train, method)
             y_true = y_test
             y_pred = clf.predict(X_test)
             perf = metric(y_true, y_pred)
-            perf = metric(y_true, y_pred)
+            
             print(f"\n\n{method}     {-perf:.3f}\n\n")
 
-            #log method and metric
+            if perf < best_perf:
+                best_model = clf
+                best_perf = perf
+                best_run_id = run_id
+                best_method = method
+            print(f"\n\nPerformance: {perf}  Best Performance: {best_perf}    Best Method: {best_method}\n\n")
 
-    
+        print(best_run_id)    
+            #log method and metric and 
+
+        # mlflow.pyfunc.save_model(best_model)
+
+# https://www.programcreek.com/python/example/121632/mlflow.pyfunc
+
 
 # models and paths directory/list
 

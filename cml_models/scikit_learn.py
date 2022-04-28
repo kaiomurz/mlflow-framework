@@ -5,6 +5,7 @@ code for SKlearn cross validation
 from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import GridSearchCV
 import mlflow.sklearn
@@ -38,6 +39,8 @@ import mlflow
 #     }
 # }
 
+
+
 methods = {
     "Linear Regression": {
         "regressor": LinearRegression(),
@@ -61,12 +64,12 @@ methods = {
             "fit_intercept": [True, False], 
             "positive": [True, False]
             }
-    },
-    "Decision Tree": {
-        "regressor": DecisionTreeRegressor(),
+    },      
+    "XG Boost": {
+        "regressor": xgb.XGBRegressor(),
         "param_grid": {
-            "criterion": [ "friedman_mse", "absolute_error" ],#"poisson" "squared_error",
-            "max_depth": [3, 5, 10],
+            "max_depth": [3, 5]
+            ## add params
             
         }
 
@@ -75,10 +78,6 @@ methods = {
     
 }
 
-# regressors = {
-#     "Linear Regression":LinearRegression(),
-#     "Lasso": Lasso()
-# }
 
 
 #add tags for mlfow tracking server
@@ -86,7 +85,7 @@ methods = {
 
 def get_best_model(X_train, y_train, method):
     
-    with mlflow.start_run():#run_id="Linear_Regression"
+    with mlflow.start_run() as run:#run_id="Linear_Regression"
         mlflow.autolog()
         
         # lr = LinearRegression()
@@ -94,7 +93,8 @@ def get_best_model(X_train, y_train, method):
         param_grid = methods[method]["param_grid"]
         clf_gs = GridSearchCV(regressor, param_grid=param_grid, scoring='neg_median_absolute_error', n_jobs=10, verbose=2)
         clf_gs.fit(X_train, y_train)
-        print(clf_gs.best_params_)
+        print(run.info.run_id, clf_gs.best_params_)
+
 
     
-    return(clf_gs.best_estimator_)
+    return(clf_gs.best_estimator_, run.info.run_id)
