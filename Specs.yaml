@@ -1,32 +1,51 @@
-data URI: 
+data URI: 'jena_climate_2009_2016.csv'
+
 tracking data URI:
 
-flavors:
-  scikit_learn:
-    Linear Regression:
-      run: True
-      regressor: LinearRegression()
-      param_grid:
-        fit_intercept: [True, False]
-        positive: [True, False]
-    Lasso:
-      run: True
-      regressor: Lasso()
-      param_grid:
-        alpha: [0.1, 0.5, 1]
-        fit_intercept: [True, False]
-        positive: [True, False]
-    Ridge:
-      run: True
-      regressor: Ridge()
-      param_grid:
-        alpha: [0.1, 0.5, 1]
-        fit_intercept: [True, False]
-        positive: [True, False]
-    XG Boost:
-      run: True
-      regressor: xgb.XGBRegressor()
-      param_grid:
-        max_depth: [3, 5]
+train-test split: 0.8
+metric: 
 
-ticks: 72 # 6hrs: 36, 12hrs: 72 24hrs: 144 
+# clean module: # later have separate clean modules for each method
+#   multivariate_fe
+
+# also add fe file for each flavour
+# Make sure you add the regressor object in train.py
+
+methods: 
+  Linear Regression:
+    import: [sklearn.linear_model,LinearRegression]
+    clean module: multivariate_fe
+    run: True      
+    param_grid:
+      fit_intercept: [True, False]
+      positive: [True, False]
+  Lasso Regression:
+    import: 
+      sklearn.linear_model: [Lasso]
+    clean module: multivariate_fe
+    run: True
+    param_grid:
+      alpha: [0.1, 0.5, 1]
+      fit_intercept: [True, False]
+      positive: [True, False]
+  Ridge Regression:
+    import: 
+      sklearn.linear_model: [Ridge]
+    clean module: multivariate_fe
+    run: True
+    param_grid:
+      alpha: [0.1, 0.5, 1]
+      fit_intercept: [True, False]
+      positive: [True, False]
+  XG Boost Regression:
+    import: 
+     xgboost:
+    clean module: multivariate_fe
+    run: True
+    param_grid:
+      max_depth: [3, 5]
+
+
+
+problem-specific specs:
+  hours: 12 

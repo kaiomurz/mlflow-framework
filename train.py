@@ -5,13 +5,16 @@ from yaml import CLoader as Loader
 from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
 from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
 import xgboost as xgb
-
+import sys
 import numpy as np
 import mlflow
-
-from cml_models import scikit_learn
+import pprint
+from cml_models import get_best_model
 
 import multivariate_fe as mfe
+
+
+
 
 
 
@@ -24,21 +27,76 @@ features = ['pressure', 'temp', 'dew_temp', 'rel_hum', 'max_vap_press',\
             'hour_sine_slant', 'minute_sine', 'minute_sine_slant',\
             'wind_direction_sine','wind_direction_sine_slant']
 
-train_data_length = 300000 # convert to 80% of data size
-ticks = 72 # convert to list
+train_data_length = 300000 # convert to % of data size. Pull from yaml
+ticks = 72 # pull from yaml
 metric_name = "MAE"
 metric = mean_absolute_error
 
-# with open("Specs.yaml",'rb') as f:
-#     specs = load(f, Loader=Loader)
+learners = {
+    "Linear Regression" : LinearRegression(),
+    "Lasso Regression": Lasso(),
+    "Ridge Regression": Ridge(),
+    "XG Boost Regression": xgb.XGBRegressor()
+}
+def retrieve_specs(specs_file='Specs.yaml'):
+    with open(specs_file,'rb') as f:
+        specs = load(f, Loader=Loader)
+    return specs
+
+
+
 
 def main():
-    print(specs)
-    data = pd.read_csv('jena_climate_2009_2016.csv')# from URL
+    print(learners)
+    specs = retrieve_specs()
+    pp = pprint.PrettyPrinter(indent=2)
+    # pp.pprint(specs)
+    # sys.exit()
+
+    # extract general specs
+    ticks = specs['problem-specific specs']['hours']*6
+    methods = specs['methods']
+
+    # pp.pprint(methods)
+
+
+    # import ml libraries
+    # for method in methods:
+    #     print(methods[method]['import'])
+    #     imp = methods[method]['import']
+
+    #     if len(imp) > 1:
+    #       methods[method]['import'] = __import__(imp[0], fromlist=imp[1:])
+    #       print(methods[method]['import'])  
+    #     # methods[method]['import'] = __import__(methods[method]['import'])
+    #     learners = {
+    #         "Linear Regression" : LinearRegression()},
+    #     #     "Lasso Regression": Lasso(),
+    #     #     "Ridge Regression": Ridge(),
+    #     #     "XG Boost Regression": xgb.XGBRegressor()
+    #     # }        
+    # sys.exit()
+    # for method in methods:
+    #     print(methods[method]['import'])
+    # # assign learners
+    # sys.exit()
+
+
+    data = pd.read_csv(specs['data URI'])
     data = mfe.engineer(data)
     # print(data.head())
     print(data.shape)
 
+    # assign learners
+    # for flavor in specs['flavors']:
+    #     print(flavor, "/n")
+    #     for learner_method in specs['flavors'][flavor]:
+    #         print(learner_method)
+    #         specs['flavors'][flavor][learner_method]['learner'] = learners[learner_method]
+
+    # pp = pprint.PrettyPrinter(indent=2)
+    # pp.pprint(specs)
+    # sys.exit()            
 ########################################################################
 ### modularise this ###
     X, y = mfe.create_target(data, features, target)
@@ -62,39 +120,36 @@ def main():
     # find best model for each ticks value
     
     # 
-    regressors = {
-        "LinearRegression()" : LinearRegression(),
-        "Lasso()": Lasso(),
-        "Ridge()": Ridge(),
-        "xgb.XGBRegressor()": xgb.XGBRegressor()
-    }
+ 
 
     # add progress bar
 
 
 
-    for framework in frameworks: #change to flavors
-        best_model = None
-        best_perf = np.inf
-        best_run_id = None
-        best_method = None
+    # for flavor in specs['flavors']: #change to flavors
+    best_model = None
+    best_perf = np.inf
+    best_run_id = None
+    best_method = None
 
-        for method in frameworks[framework]:
-            clf, run_id = scikit_learn.get_best_model(X_train, y_train, method)
-            y_true = y_test
-            y_pred = clf.predict(X_test)
-            perf = metric(y_true, y_pred)
-            
-            print(f"\n\n{method}     {-perf:.3f}\n\n")
+    for method in specs['methods']:
+        # model, run_id = scikit_learn.get_best_model(X_train, y_train, specs, method, learners)
+        model, run_id = get_best_model.get_best_model(X_train, y_train, specs, method, learners)
 
-            if perf < best_perf:
-                best_model = clf
-                best_perf = perf
-                best_run_id = run_id
-                best_method = method
-            print(f"\n\nPerformance: {perf}  Best Performance: {best_perf}    Best Method: {best_method}\n\n")
+        y_true = y_test
+        y_pred = model.predict(X_test)
+        perf = metric(y_true, y_pred)
+        
+        print(f"\n\n{method}     {-perf:.3f}\n\n")
 
-        print(best_run_id)    
+        if perf < best_perf:
+            best_model = model
+            best_perf = perf
+            best_run_id = run_id
+            best_method = method
+        print(f"\n\nPerformance: {perf}  Best Performance: {best_perf}    Best Method: {best_method}\n\n")
+
+    print(best_run_id)    
             #log method and metric and 
 
         # mlflow.pyfunc.save_model(best_model)
