@@ -1,5 +1,6 @@
 
 import pandas as pd
+from sklearn.model_selection import train_test_split
 from yaml import load
 from yaml import CLoader as Loader
 from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
@@ -10,12 +11,12 @@ import numpy as np
 import mlflow
 import pprint
 from cml_models import get_best_model
+# import tensorflow as tf
+# from tensorflow.keras import layers
+# from tensorflow.keras import losses
+
 
 import multivariate_fe as mfe
-
-
-
-
 
 
 target = 'temp'
@@ -53,33 +54,13 @@ def main():
     # pp.pprint(specs)
     # sys.exit()
 
+    #get imports
+
     # extract general specs
     ticks = specs['problem-specific specs']['hours']*6
     methods = specs['methods']
-
+    train_test_split = specs['train-test split']
     # pp.pprint(methods)
-
-
-    # import ml libraries
-    # for method in methods:
-    #     print(methods[method]['import'])
-    #     imp = methods[method]['import']
-
-    #     if len(imp) > 1:
-    #       methods[method]['import'] = __import__(imp[0], fromlist=imp[1:])
-    #       print(methods[method]['import'])  
-    #     # methods[method]['import'] = __import__(methods[method]['import'])
-    #     learners = {
-    #         "Linear Regression" : LinearRegression()},
-    #     #     "Lasso Regression": Lasso(),
-    #     #     "Ridge Regression": Ridge(),
-    #     #     "XG Boost Regression": xgb.XGBRegressor()
-    #     # }        
-    # sys.exit()
-    # for method in methods:
-    #     print(methods[method]['import'])
-    # # assign learners
-    # sys.exit()
 
 
     data = pd.read_csv(specs['data URI'])
@@ -87,23 +68,19 @@ def main():
     # print(data.head())
     print(data.shape)
 
-    # assign learners
-    # for flavor in specs['flavors']:
-    #     print(flavor, "/n")
-    #     for learner_method in specs['flavors'][flavor]:
-    #         print(learner_method)
-    #         specs['flavors'][flavor][learner_method]['learner'] = learners[learner_method]
+# remove methods for which run == False
 
-    # pp = pprint.PrettyPrinter(indent=2)
-    # pp.pprint(specs)
-    # sys.exit()            
+
 ########################################################################
 ### modularise this ###
+
+### collate all methods based on clean module and train them in order of clean module in order to 
+### avoid repitition in cleaning.
     X, y = mfe.create_target(data, features, target)
 
     X = mfe.scale(X)   
 
-    X_train, y_train, X_test, y_test = mfe.get_train_test_splits(X, y, train_data_length, ticks)
+    X_train, y_train, X_test, y_test = mfe.get_train_test_splits(X, y, train_test_split, ticks)
    
 
     print(X_train.shape, len(y_train))

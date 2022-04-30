@@ -116,7 +116,8 @@ def scale(X):
 
     return X
 
-def get_train_test_splits(X,y, train_data_length, ticks):
+def get_train_test_splits(X,y, train_test_split, ticks):
+    train_data_length = int(train_test_split*len(y))
     X_train = X[:train_data_length-ticks]
     y_train = y[ticks:train_data_length]
 

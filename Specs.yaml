@@ -1,50 +1,61 @@
 data URI: 'jena_climate_2009_2016.csv'
 
-tracking data URI:
+tracking database URI:
 
 train-test split: 0.8
+cross-validation subset: # to train on subset of data and find best hyperparameters. then train a model using all the data. 
+random seed: 
 metric: 
 
-# clean module: # later have separate clean modules for each method
-#   multivariate_fe
+# later have separate fe modules for each method
 
 # also add fe file for each flavour
 # Make sure you add the regressor object in train.py
 
 methods: 
-  Linear Regression:
-    import: [sklearn.linear_model,LinearRegression]
-    clean module: multivariate_fe
-    run: True      
-    param_grid:
-      fit_intercept: [True, False]
-      positive: [True, False]
-  Lasso Regression:
-    import: 
-      sklearn.linear_model: [Lasso]
-    clean module: multivariate_fe
-    run: True
-    param_grid:
-      alpha: [0.1, 0.5, 1]
-      fit_intercept: [True, False]
-      positive: [True, False]
-  Ridge Regression:
-    import: 
-      sklearn.linear_model: [Ridge]
-    clean module: multivariate_fe
-    run: True
-    param_grid:
-      alpha: [0.1, 0.5, 1]
-      fit_intercept: [True, False]
-      positive: [True, False]
-  XG Boost Regression:
+  # Linear Regression:
+  #   fit-function: scikit learn
+  #   import: [sklearn.linear_model,LinearRegression]
+  #   fe module: multivariate_fe
+  #   run: True      
+  #   param_grid:
+  #     fit_intercept: [True, False]
+  #     positive: [True, False]
+  # Lasso Regression:
+  #   fit-function: scikit learn
+  #   import: 
+  #     sklearn.linear_model: [Lasso]
+  #   fe module: multivariate_fe
+  #   run: True
+  #   param_grid:
+  #     alpha: [0.1, 0.5, 1]
+  #     fit_intercept: [True, False]
+  #     positive: [True, False]
+  # Ridge Regression:
+  #   fit-function: scikit learn
+  #   import: 
+  #     sklearn.linear_model: [Ridge]
+  #   fe module: multivariate_fe
+  #   run: True
+  #   param_grid:
+  #     alpha: [0.1, 0.5, 1]
+  #     fit_intercept: [True, False]
+  #     positive: [True, False]
+  # XG Boost Regression:
+  #   fit-function: scikit learn
+  #   import: 
+  #    xgboost:
+  #   fe module: multivariate_fe
+  #   run: True
+  #   param_grid:
+  #     max_depth: [3, 5]
+  Keras 01:
+    fit-function: keras 01
     import: 
      xgboost:
-    clean module: multivariate_fe
+    fe module: multivariate_fe
     run: True
-    param_grid:
-      max_depth: [3, 5]
-
+    
 
 
 problem-specific specs:
