@@ -134,3 +134,10 @@ dmypy.json
 #MLflow output
 /mlruns
 /__MACOSX
+
+# dev files
+Notes.ipynb
+sandbox.ipynb
+EDA.ipynb
+snippets.py
+.gitignore
