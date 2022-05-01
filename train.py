@@ -1,19 +1,17 @@
 
-# import pandas as pd
+import pandas as pd
 # from sklearn.model_selection import train_test_split
-# from yaml import load
-# from yaml import CLoader as Loader
-# from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
-# from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
-# import xgboost as xgb
-# import sys
-# import numpy as np
+from yaml import load
+from yaml import CLoader as Loader
+from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
+from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
+import xgboost as xgb
+import sys
+import numpy as np
 # import mlflow
-# import pprint
-# from cml_models import get_best_model
-# # import tensorflow as tf
-# # from tensorflow.keras import layers
-# # from tensorflow.keras import losses
+import pprint
+import get_best_model
+import multivariate_fe as mfe
 
 
 # import multivariate_fe as mfe
@@ -42,7 +40,14 @@ def retrieve_specs(specs_file='Specs.yaml'):
 
 
 def main():
- 
+    # exec(open("imports.py").read())
+
+
+    # tf_available = "tensorflow" in dir()
+    # np_available = "np" in dir()
+    # print("tf in main: ", tf_available )
+    # print("np in main: ", np_available )
+    
     ##### deal with this ######
     metric_name = "MAE"
     metric = mean_absolute_error
@@ -133,7 +138,7 @@ def main():
             best_method = method
         print(f"\n\nPerformance: {perf}  Best Performance: {best_perf}    Best Method: {best_method}\n\n")
 
-    print(best_run_id)    
+    print("best run id: ", best_run_id)    
             #log method and metric and 
 
         # mlflow.pyfunc.save_model(best_model)
@@ -145,7 +150,8 @@ def main():
 
 
 if __name__=="__main__":
-    exec(open("imports.py").read())
+    # exec(open("imports.py").read())
+    tf_available = "tf" in dir()
+    print("tf in start: ", tf_available )
     print("imports done")
-    print(np.inf)
     main()

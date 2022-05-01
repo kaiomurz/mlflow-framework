@@ -2,14 +2,18 @@
 code for SKlearn cross validation
 """
 
-# from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
-# from sklearn.tree import DecisionTreeRegressor
-# from sklearn.ensemble import RandomForestRegressor
-# import xgboost as xgb
+from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import GridSearchCV
-import mlflow.sklearn
-from mlflow.models.signature import infer_signature
+# import mlflow.sklearn
+# from mlflow.models.signature import infer_signature
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import losses
+
 
 import mlflow
 
@@ -20,6 +24,14 @@ import mlflow
 # parameters.return that as best model
 
 def get_sk_learn_best_model(X_train, y_train, specs, method, learners):
+
+    # from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
+    # from sklearn.tree import DecisionTreeRegressor
+    # from sklearn.ensemble import RandomForestRegressor
+    # import xgboost as xgb
+    # from sklearn.metrics import mean_absolute_error
+    # from sklearn.model_selection import GridSearchCV
+
     with mlflow.start_run() as run:#run_id="Linear_Regression"
         mlflow.autolog()
         
@@ -40,7 +52,7 @@ def get_keras_01_best_model(X_train, y_train, specs, method, learners):
     # from tensorflow.keras import losses
 
     input_size = X_train.shape[1]
-    model = keras.Sequential([
+    model = tf.keras.Sequential([
         layers.Dense(2*input_size, activation='relu', input_shape=(input_size,)),
         layers.Dense(20, activation='relu'),
         layers.Dense(1)

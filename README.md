@@ -11,15 +11,15 @@ Build a _modular_ machine learning engineering framework based on ML Flow where 
 - metrics on which to pick best model   
 
 The framework then runs experiments using ML Flow on various models using the supplied specs by   
-- cleaning data and engineering features (based on feature engineering script specified for method)  
-- training/cross-validating the various models and using their respective functions and hyperparameters  
-- picks the best model, which can served through a REST API endpoint, at the user's discretion.  
+- cleaning data and engineering features (based on feature engineering script specified for method),  
+- training/cross-validating the various models and using their respective functions and hyperparameters,  
+and picks the best model which can served through a REST API endpoint at the user's discretion.  
 
 
-The framework is modular because to add another method type, all the data scientist has to do is   
-- create the relevant cleaning, feature extraction, and training functions to the relevant files, 
-and  
-- add their details to the YAML file. 
+The framework is modular because to add another method type, all the data scientist has to do is add   
+- the relevant cleaning, feature extraction, and training functions to the relevant files,  
+- their details to the `Specs.yaml` file, and 
+- add the necessary import statements to the  `train.py` file.
 
 #### _Example use and Current status_
 The project is under development and in its current state represents the framework customised for a specific task: to find the best temperature forecasting model for a given dataset. I've picked this task because it's one that can be approached using various methods:  
@@ -28,7 +28,7 @@ The project is under development and in its current state represents the framewo
 
 Thus this dataset can a good example of how the framework an orchestrate ML Flow experiments using the various machine learning methods. 
 
-To get a sense of how the eventual framework will work, please just run the `train.py` file. It will  
+To get a sense of how the eventual framework will work, please install the dependencies as listed in `requirements.txt` and run the `train.py` file. It will  
 - read the the specifications for various models provided in `Specs.yaml`  
 - engineer features using the `multivariate_fe.py` created for this specific problem  
 - run the respective cross-validation or training functions various models in `get_best_model.py`  

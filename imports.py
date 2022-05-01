@@ -13,7 +13,9 @@ if __name__=="__main__":
     import numpy as np
     import mlflow
     import pprint
-    from cml_models import get_best_model
+    import get_best_model
+    # import tensorflow.keras as keras
+    import tensorflow
     from tensorflow import keras
     from tensorflow.keras import layers
     from tensorflow.keras import losses

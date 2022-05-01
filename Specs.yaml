@@ -21,34 +21,34 @@ methods:
   #   param_grid:
   #     fit_intercept: [True, False]
   #     positive: [True, False]
-  # Lasso Regression:
-  #   fit-function: scikit learn
-  #   import: 
-  #     sklearn.linear_model: [Lasso]
-  #   fe module: multivariate_fe
-  #   run: True
-  #   param_grid:
-  #     alpha: [0.1, 0.5, 1]
-  #     fit_intercept: [True, False]
-  #     positive: [True, False]
-  # Ridge Regression:
-  #   fit-function: scikit learn
-  #   import: 
-  #     sklearn.linear_model: [Ridge]
-  #   fe module: multivariate_fe
-  #   run: True
-  #   param_grid:
-  #     alpha: [0.1, 0.5, 1]
-  #     fit_intercept: [True, False]
-  #     positive: [True, False]
-  # XG Boost Regression:
-  #   fit-function: scikit learn
-  #   import: 
-  #    xgboost:
-  #   fe module: multivariate_fe
-  #   run: True
-  #   param_grid:
-  #     max_depth: [3, 5]
+  Lasso Regression:
+    fit-function: scikit learn
+    import: 
+      sklearn.linear_model: [Lasso]
+    fe module: multivariate_fe
+    run: True
+    param_grid:
+      alpha: [0.1, 0.5, 1]
+      fit_intercept: [True, False]
+      positive: [True, False]
+  Ridge Regression:
+    fit-function: scikit learn
+    import: 
+      sklearn.linear_model: [Ridge]
+    fe module: multivariate_fe
+    run: True
+    param_grid:
+      alpha: [0.1, 0.5, 1]
+      fit_intercept: [True, False]
+      positive: [True, False]
+  XG Boost Regression:
+    fit-function: scikit learn
+    import: 
+     xgboost:
+    fe module: multivariate_fe
+    run: True
+    param_grid:
+      max_depth: [3, 5]
   Keras 01:
     fit-function: keras 01
     import: 
