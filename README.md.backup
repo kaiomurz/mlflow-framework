@@ -24,7 +24,7 @@ The project is under development and in its current state represents the framewo
 - regression using various conventional machine learning and neural network tools, and 
 - time series forecasting using various libraries such as Prophet or Darts
 
-Thus this dataset can a good example of how the framework an orchestrate the various experiments. 
+Thus this dataset can a good example of how the framewor
 
 The elements can still be examined, however. 
 - the yaml file lays out the specification

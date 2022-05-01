@@ -35,12 +35,12 @@ def get_sk_learn_best_model(X_train, y_train, specs, method, learners):
 
 def get_keras_01_best_model(X_train, y_train, specs, method, learners):
 
-    import tensorflow as tf
-    from tensorflow.keras import layers
-    from tensorflow.keras import losses
+    # import tensorflow as tf
+    # from tensorflow.keras import layers
+    # from tensorflow.keras import losses
 
     input_size = X_train.shape[1]
-    model = tf.keras.Sequential([
+    model = keras.Sequential([
         layers.Dense(2*input_size, activation='relu', input_shape=(input_size,)),
         layers.Dense(20, activation='relu'),
         layers.Dense(1)

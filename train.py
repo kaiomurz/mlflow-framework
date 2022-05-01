@@ -1,22 +1,22 @@
 
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from yaml import load
-from yaml import CLoader as Loader
-from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
-from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
-import xgboost as xgb
-import sys
-import numpy as np
-import mlflow
-import pprint
-from cml_models import get_best_model
-# import tensorflow as tf
-# from tensorflow.keras import layers
-# from tensorflow.keras import losses
+# import pandas as pd
+# from sklearn.model_selection import train_test_split
+# from yaml import load
+# from yaml import CLoader as Loader
+# from sklearn.linear_model import LogisticRegression, LinearRegression, Ridge, Lasso
+# from sklearn.metrics import recall_score, precision_score, mean_absolute_error, mean_absolute_percentage_error
+# import xgboost as xgb
+# import sys
+# import numpy as np
+# import mlflow
+# import pprint
+# from cml_models import get_best_model
+# # import tensorflow as tf
+# # from tensorflow.keras import layers
+# # from tensorflow.keras import losses
 
 
-import multivariate_fe as mfe
+# import multivariate_fe as mfe
 
 
 target = 'temp'
@@ -30,15 +30,9 @@ features = ['pressure', 'temp', 'dew_temp', 'rel_hum', 'max_vap_press',\
 
 train_data_length = 300000 # convert to % of data size. Pull from yaml
 ticks = 72 # pull from yaml
-metric_name = "MAE"
-metric = mean_absolute_error
 
-learners = {
-    "Linear Regression" : LinearRegression(),
-    "Lasso Regression": Lasso(),
-    "Ridge Regression": Ridge(),
-    "XG Boost Regression": xgb.XGBRegressor()
-}
+
+
 def retrieve_specs(specs_file='Specs.yaml'):
     with open(specs_file,'rb') as f:
         specs = load(f, Loader=Loader)
@@ -48,6 +42,19 @@ def retrieve_specs(specs_file='Specs.yaml'):
 
 
 def main():
+ 
+    ##### deal with this ######
+    metric_name = "MAE"
+    metric = mean_absolute_error
+    learners = {
+    "Linear Regression" : LinearRegression(),
+    "Lasso Regression": Lasso(),
+    "Ridge Regression": Ridge(),
+    "XG Boost Regression": xgb.XGBRegressor()
+    }
+    #############################
+
+
     print(learners)
     specs = retrieve_specs()
     pp = pprint.PrettyPrinter(indent=2)
@@ -138,4 +145,7 @@ def main():
 
 
 if __name__=="__main__":
+    exec(open("imports.py").read())
+    print("imports done")
+    print(np.inf)
     main()
