@@ -13,14 +13,14 @@ metric:
 # Make sure you add the regressor object in train.py
 
 methods: 
-  # Linear Regression:
-  #   fit-function: scikit learn
-  #   import: [sklearn.linear_model,LinearRegression]
-  #   fe module: multivariate_fe
-  #   run: True      
-  #   param_grid:
-  #     fit_intercept: [True, False]
-  #     positive: [True, False]
+  Linear Regression:
+    fit-function: scikit learn
+    import: [sklearn.linear_model,LinearRegression]
+    fe module: multivariate_fe
+    run: True      
+    param_grid:
+      fit_intercept: [True, False]
+      positive: [True, False]
   Lasso Regression:
     fit-function: scikit learn
     import: 

@@ -2,15 +2,26 @@
 
 
 #### _Objective_
-Build a _modular_ machine learning engineering framework based on ML Flow where a data scientist can supply through a YAML file the following:  
-- URI of data set  
-- names of training functions for various models (stored in a single file)  
+Build a modular machine learning engineering framework built on top of ML FLow that can 
+- orchestrate training and hyperparameter tuning experiments  
+- on various ML methods  
+- using various cleaning and feature extraction pipelines. 
+The modularity results from the ease with which the data scientist can add, remove, or swap out the various models, hyperparameter sets, or feature extraction pipelines by simply reconfiguring a YAML file. 
+
+The framework then compares the best tuned model of each ML method and offers it up as a REST API. 
+
+Such a framework could be useful to data scientists because of the ease with which the data science pipeline could be set up. It could also be useful to ML engineers who can orchestrate a periodic training and deployment cycle. 
+
+__Details_
+The user can supply through a YAML file the following:  
+- URI of data set and ML Flow tracking server  
+- names of training/cross-validation functions for various models stored in a designated file  
 - locations of cleaning feature extraction scripts for various models  
-- training parameters/hyperparameters for various model  
-- metrics on which to pick best model   
+- training parameters/hyperparameters for various models  
+- the metric on which to pick best model, etc.   
 
 The framework then runs experiments using ML Flow on various models using the supplied specs by   
-- applying the relevant data cleaning and feature engineering to each model and  
+- applying the chosen data cleaning and feature engineering pipelines to each model and  
 - training/cross-validating the various models and using their respective functions and hyperparameters.  
 At the end of all the runs, it picks the best model which can served through a REST API endpoint at the user's discretion.  
 
@@ -25,7 +36,7 @@ The project is under development and in its current state represents the framewo
 - regression using various conventional machine learning and neural network tools, and   
 - time series forecasting using various libraries such as Prophet or Darts
 
-Thus this dataset can a good example of how the framework an orchestrate in a modular fashion ML Flow experiments using the various machine learning methods. 
+Thus, this dataset can a good example of how the framework an orchestrate in a modular fashion ML Flow experiments using the various machine learning methods. 
 
 To get a sense of how the eventual framework will work, please install the dependencies as listed in `requirements.txt` and run the `train.py` file. It will  
 - read the the specifications for various models provided in `Specs.yaml`  
@@ -39,7 +50,7 @@ To get a sense of how the eventual framework will work, please install the depen
 - ability to upsert tracking data to any URI, including one on any cloud service  
 - parallelly run ML Flow experiments various methods through multiprocessing  
 - generating performance and explainability charts and for each model type  
-- packaging as a docker container that can be run from a data-scientist's machine or in the cloud. 
+- facility to package a project created on the framework as a docker container so that can be part of a CI-CD pipeline for periodic retraining. 
  
 
 
