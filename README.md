@@ -16,7 +16,7 @@ _Details_
 The user can supply through a YAML file the following:  
 - URI of data set and ML Flow tracking server  
 - names of training/cross-validation functions for various models stored in a designated file  
-- locations of cleaning feature extraction scripts for various models  
+- names of cleaning feature extraction scripts for various models  
 - training parameters/hyperparameters for various models  
 - the metric on which to pick best model, etc.   
 
@@ -29,7 +29,7 @@ At the end of all the runs, it picks the best model which can served through a R
 The framework is modular because to add another method type, all the data scientist has to do is add   
 - the relevant cleaning, feature extraction, and training functions to the relevant files,  
 - their details to the `Specs.yaml` file, and  
-- add the necessary import statements to the  `train.py` file.
+- add the necessary import statements.
 
 #### _Example use and Current status_
 The project is under development and in its current state represents the framework customised for a specific task: to find the best temperature forecasting model for a given dataset. I've picked this task because it's one that can be approached using various methods:  
