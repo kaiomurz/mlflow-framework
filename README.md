@@ -2,17 +2,16 @@
 
 
 #### _Objective_
-Build a modular machine learning engineering framework built on top of ML FLow that can 
-- orchestrate training and hyperparameter tuning experiments  
+Build a modular machine learning engineering framework built on top of ML FLow that can orchestrate training and hyperparameter tuning experiments   
 - on various ML methods  
-- using various cleaning and feature extraction pipelines. 
+- using various cleaning and feature extraction pipelines.  
 The modularity results from the ease with which the data scientist can add, remove, or swap out the various models, hyperparameter sets, or feature extraction pipelines by simply reconfiguring a YAML file. 
 
 The framework then compares the best tuned model of each ML method and offers it up as a REST API. 
 
 Such a framework could be useful to data scientists because of the ease with which the data science pipeline could be set up. It could also be useful to ML engineers who can orchestrate a periodic training and deployment cycle. 
 
-__Details_
+_Details_  
 The user can supply through a YAML file the following:  
 - URI of data set and ML Flow tracking server  
 - names of training/cross-validation functions for various models stored in a designated file  
