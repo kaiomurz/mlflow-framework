@@ -10,7 +10,7 @@ metric:
 # later have separate fe modules for each method
 
 # also add fe file for each flavour
-# Make sure you add the regressor object in train.py
+# Make sure you add the regressor object in train.py 
 
 methods: 
   Linear Regression:
